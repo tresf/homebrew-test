@@ -35,7 +35,7 @@ class Openjdk < Formula
   # From https://jdk.java.net/archive/
   resource "boot-jdk" do
     on_macos do
-      # Apple Silicon requires v15 or v16 boot-jdk
+      # Apple Silicon requires openjdk-15 or openjdk-16 boot-jdk
       if Hardware::CPU.arm?
         url "https://download.java.net/java/early_access/jdk16/25/GPL/openjdk-16-ea+25_osx-x64_bin.tar.gz"
         sha256 "e08a359771834d0f298f9b08672328758985743d0feefdf4b705a2d6218fecff"
@@ -65,8 +65,8 @@ class Openjdk < Formula
     # Inspecting .hgtags to find a build number
     # The file looks like this:
     #
-    # fd07cdb26fc70243ef23d688b545514f4ddf1c2b jdk-16+13
-    # 36b29df125dc88f11657ce93b4998aa9ff5f5d41 jdk-16+14
+    # 23fd169be90a803fef99776afefa3072189980be jdk-15.0.1+7
+    # 8dd4d8eaf0de32a79d1f48c3421e5666d75beff9 jdk-15.0.1+8
     #
     build = File.read(".hgtags")
                 .scan(/ jdk-#{version}\+(.+)$/)
