@@ -75,7 +75,7 @@ class Openjdk < Formula
                 .max
     raise "cannot find build number in .hgtags" if build.nil?
 
-    configure_args = %w[
+    configure_args = %W[
       --without-version-pre
       --without-version-opt
       --with-version-build=#{build}
