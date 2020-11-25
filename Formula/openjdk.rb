@@ -4,7 +4,7 @@ class Openjdk < Formula
   url "https://hg.openjdk.java.net/jdk-updates/jdk15u/archive/jdk-15.0.1-ga.tar.bz2"
   sha256 "9c5be662f5b166b5c82c27de29b71f867cff3ff4570f4c8fa646490c4529135a"
  
-  # Apple Silicon requires v15 or v16 boot-jdk
+  # Apple Silicon requires openjdk/sandbox JEP-391-branch
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/openjdk/jdk-sandbox/archive/a56ddad05cf1808342aeff1b1cd2b0568a6cdc3a.tar.gz"
