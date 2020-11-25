@@ -97,7 +97,8 @@ class Openjdk < Formula
           --openjdk-target=aarch64-apple-darwin
           --with-extra-cflags=-arch arm64
           --with-extra-ldflags=-arch arm64 -F#{get_framework()}
-          --with-extra-cxxflags=-arch arm64]
+          --with-extra-cxxflags=-arch arm64
+        ]
       end
     end
 
