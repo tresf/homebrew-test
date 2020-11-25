@@ -54,35 +54,6 @@ class Openjdk < Formula
   def get_framework
     File.expand_path("../SharedFrameworks/ContentDeliveryServices.framework/Versions/Current/itms/java/Frameworks", MacOS::Xcode.prefix)
   end
-  
-  def configure_args
-    args = %W[
-      --without-version-pre
-      --without-version-opt
-      --with-version-build=#{build}
-      --with-toolchain-path=/usr/bin
-      --with-sysroot=#{MacOS.sdk_path}
-      --with-extra-ldflags=-headerpad_max_install_names
-      --with-boot-jdk=#{boot_jdk}
-      --with-boot-jdk-jvmargs=#{java_options}
-      --with-build-jdk=#{boot_jdk}
-      --with-debug-level=release
-      --with-native-debug-symbols=none
-      --enable-dtrace
-      --with-jvm-variants=server
-    ]
-    on_macos do
-      if Hardware::CPU.arm?
-        args += %W[
-          --disable-warnings-as-errors
-          --openjdk-target=aarch64-apple-darwin
-          --with-extra-cflags=-arch arm64
-          --with-extra-ldflags=-arch arm64 -F#{get_framework()}
-          --with-extra-cxxflags=-arch arm64]
-      end
-    end
-    args
-  end
 
   def install
     boot_jdk_dir = Pathname.pwd/"boot-jdk"
@@ -103,6 +74,32 @@ class Openjdk < Formula
                 .map(&:to_i)
                 .max
     raise "cannot find build number in .hgtags" if build.nil?
+
+    configure_args = %W[
+      --without-version-pre
+      --without-version-opt
+      --with-version-build=#{build}
+      --with-toolchain-path=/usr/bin
+      --with-sysroot=#{MacOS.sdk_path}
+      --with-extra-ldflags=-headerpad_max_install_names
+      --with-boot-jdk=#{boot_jdk}
+      --with-boot-jdk-jvmargs=#{java_options}
+      --with-build-jdk=#{boot_jdk}
+      --with-debug-level=release
+      --with-native-debug-symbols=none
+      --enable-dtrace
+      --with-jvm-variants=server
+    ]
+    on_macos do
+      if Hardware::CPU.arm?
+        configure_args += %W[
+          --disable-warnings-as-errors
+          --openjdk-target=aarch64-apple-darwin
+          --with-extra-cflags=-arch arm64
+          --with-extra-ldflags=-arch arm64 -F#{get_framework()}
+          --with-extra-cxxflags=-arch arm64]
+      end
+    end
 
     chmod 0755, "configure"
     system "./configure", *configure_args
